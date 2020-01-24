@@ -4,8 +4,8 @@ import { RegisterComponent } from './products/register/register.component';
 import { ListComponent } from './products/list/list.component';
 
 const routes: Routes = [
-  {path: 'cadastro-produtos', component: RegisterComponent },
-  {path: 'lista-produtos', component: ListComponent }
+  {path: 'register-products', component: RegisterComponent },
+  {path: 'products-list', component: ListComponent }
 ];
 
 @NgModule({
