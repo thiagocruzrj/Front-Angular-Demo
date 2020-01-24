@@ -1,0 +1,79 @@
+<h3 style="padding-top: 50px">Novo Produto </h3>
+
+<hr>
+<div class="row">
+  <div class="col-md-10">
+    <form enctype="multipart/form-data" (ngSubmit)="registerProduct()" [formGroup]="productForm">
+
+
+      <div class="alert alert-danger" *ngIf="errors.length > 0">
+        <h3 id="msgRetorno">Opa! Alguma coisa não deu certo:</h3>
+        <ul>
+          <li *ngFor="let error of errors">{{ error }}</li>
+        </ul>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="ProviderId">Fornecedor</label>
+        <select class="form-control" data-val="true" formControlName="providerId"
+          data-val-required="O campo Fornecedor é obrigatório" id="ProviderId" name="ProviderId">
+          <option></option>
+          <option *ngFor='let provider of providers' value="{{ provider.id }}">{{ provider.name }}</option>
+        </select>
+
+        <span class="text-danger field-validation-valid" data-valmsg-for="ProviderId"
+          data-valmsg-replace="true"></span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="Name">Nome</label>
+        <input formControlName="name" class="form-control" type="text" data-val="true"
+          data-val-length="O campo Nome precisa ter entre 2 e 200 caracteres" data-val-length-max="200"
+          data-val-length-min="2" data-val-required="O campo Nome é obrigatório" id="Name" maxlength="200" name="Name"
+          value="">
+        <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="Description">Descrição</label>
+        <textarea formControlName="description" cols="40" rows="5" class="form-control" data-val="true"
+          data-val-length="O campo Descrição precisa ter entre 2 e 1000 caracteres" data-val-length-max="1000"
+          data-val-length-min="2" data-val-required="O campo Descrição é obrigatório" id="Description" maxlength="1000"
+          name="Description"></textarea>
+        <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="ImageUpload">Imagem do Produto</label>
+
+        <div class="custom-file">
+          <input accept="image/jpeg" #fileInput (change)="upload(fileInput.files)" formControlName="imageUpload"
+            type="file" class="custom-file-input" id="ImageUpload" name="ImageUpload" data-val="true"
+            data-val-required="Preencha o campo Imagem">
+          <label data-browse="Search" style="width: 400px" class="custom-file-label" for="ImageUpload"></label>
+          <label *ngIf="imageName" id="img_name">{{imageName}}</label>
+        </div>
+
+        <span class="text-danger field-validation-valid" data-valmsg-for="ImageUpload"
+          data-valmsg-replace="true"></span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="Value">Valor</label>
+        <input formControlName="value" class="form-control" type="text" data-val="true"
+          data-val-moeda="Moeda em formato inválido" data-val-number="Moeda em formato inválido"
+          data-val-required="O campo Valor é obrigatório" id="Valor" name="Valor" value="0,00">
+        <span class="text-danger field-validation-valid" data-valmsg-for="Valor" data-valmsg-replace="true"></span>
+      </div>
+      <div class="form-group form-check">
+        <label class="form-check-label">
+          <input formControlName="ativo" class="form-check-input" type="checkbox" data-val="true"
+            data-val-required="The Ativo? field is required." id="Ativo" name="Ativo" value="true"> Ativo?
+        </label>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Cadastrar" class="btn btn-primary">
+        <a class="btn btn-info" [routerLink]="['/lista-produtos']">Voltar</a>
+      </div>
+      <input name="__RequestVerificationToken" type="hidden"
+        value="CfDJ8JFEnR8BJoNNvZ0tQYlByanQ4VX2IKcYTVKLmjG3d5MYEtXNEfCUTeZ7iz6BP_n8gey78xPwFiNteeblSInNPbJR2SrGkHrXds9dnKDakV5zswDtfJyeHSL5_yQtoBnHUk0h5SdE6bxrzDbfYbP8oxRLzPa6PCfiPYClsLQkmuNwUZCxy1gzbMaqO3tWSZuaUg"><input
+        name="Ativo" type="hidden" value="false">
+    </form>
+  </div>
+</div>
