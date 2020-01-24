@@ -5,15 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CadastroComponent } from './products/register/register.component';
+import { RegisterComponent } from './products/register/register.component';
 import { ProductService } from './products/services/productService';
-import { ListaComponent } from './products/list/list.component';
+import { ListComponent } from './products/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CadastroComponent,
-    ListaComponent
+    RegisterComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

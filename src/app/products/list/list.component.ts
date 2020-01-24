@@ -3,21 +3,21 @@ import { ProductService } from '../services/productService';
 import { Product } from '../models/Product';
 
 @Component({
-  selector: 'app-lista',
-  templateUrl: './lista.component.html'
+  selector: 'app-list',
+  templateUrl: './list.component.html'
 })
-export class ListaComponent implements OnInit {
+export class ListComponent implements OnInit {
 
   constructor(private productService: ProductService) { }
 
-  public produtos: Product[];
+  public products: Product[];
   public imageURL: string;
   errorMessage: string;
 
   ngOnInit() {
-    this.productService.obterTodos()
+    this.productService.getAll()
       .subscribe(
-        produtos => this.produtos = produtos,
+        products => this.products = products,
         error => this.errorMessage = error,
     );   
   }

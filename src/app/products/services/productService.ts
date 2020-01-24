@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { catchError, map } from "rxjs/operators";
 import { throwError } from 'rxjs';
-import { Fornecedor } from '../models/provider';
-import { Produto } from '../models/Product';
+import { Provider } from '../models/provider';
+import { Product } from '../models/Product';
 
 @Injectable()
 export class ProductService {
@@ -13,50 +13,50 @@ export class ProductService {
 
     protected UrlServiceV1: string = "https://localhost:5001/api/";
 
-    obterTodos(): Observable<Produto[]> {
+    getAll(): Observable<Product[]> {
         return this.http
-            .get<Produto[]>(this.UrlServiceV1 + "produtos")
+            .get<Product[]>(this.UrlServiceV1 + "products")
             .pipe(
                 catchError(this.serviceError));
     }
 
-    registrarProdutoAlternativo(produto: FormData): Observable<Produto> {
+    registerAlternativeProduct(product: FormData): Observable<Product> {
 
         return this.http
-            .post(this.UrlServiceV1 + 'produtos/adicionar', produto, this.ObterHeaderFormData())
+            .post(this.UrlServiceV1 + 'products/add', product, this.GetHeaderFormData())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError)
             );
     }
 
-    registrarProduto(produto: Produto): Observable<Produto> {
+    registerProduct(product: Product): Observable<Product> {
 
         return this.http
-            .post(this.UrlServiceV1 + 'produtos', produto, this.ObterHeaderJson())
+            .post(this.UrlServiceV1 + 'products', product, this.GetHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError)
             );
     }
 
-    obterFornecedores(): Observable<Fornecedor[]> {
+    getProviders(): Observable<Provider[]> {
         return this.http
-            .get<Fornecedor[]>(this.UrlServiceV1 + 'fornecedores')
+            .get<Provider[]>(this.UrlServiceV1 + 'providers')
             .pipe(
                 catchError(this.serviceError)
             );
     }
 
-    protected ObterHeaderFormData() {
+    protected GetHeaderFormData() {
         return {
             headers: new HttpHeaders({
-                'Content-Disposition': 'form-data; name="produto"'
+                'Content-Disposition': 'form-data; name="product"'
             })
         };
     }
 
-    protected ObterHeaderJson() {
+    protected GetHeaderJson() {
         return {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'

@@ -4,40 +4,40 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
-import { Produto } from '../models/Product';
-import { Fornecedor } from '../models/provider';
-import { ProdutoService } from '../services/productService';
+import { Product } from '../models/Product';
+import { Provider } from '../models/provider';
+import { ProductService } from '../services/productService';
 
 @Component({
-  selector: 'app-cadastro',
-  templateUrl: './cadastro.component.html'
+  selector: 'app-register',
+  templateUrl: './register.component.html'
 })
-export class CadastroComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
-  produtoForm: FormGroup;
-  produto: Produto;
+  productForm: FormGroup;
+  product: Product;
   errors: any[] = [];
-  fornecedores: Fornecedor[];
-  imagemForm: any;
-  imagemNome: string;
+  providers: Provider[];
+  imageForm: any;
+  imageName: string;
   imageBase64: any;
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private produtoService: ProdutoService) {
+              private productService: ProductService) {
 
-    this.produtoService.obterFornecedores()
+    this.productService.getProviders()
       .subscribe(
-        fornecedores => this.fornecedores = fornecedores,
+        providers => this.providers = providers,
         fail => this.errors = fail.error.errors
       );
 
-    this.imagemForm = new FormData();
+    this.imageForm = new FormData();
   }
 
   ngOnInit(): void {
 
-    this.produtoForm = this.fb.group({
+    this.productForm = this.fb.group({
       fornecedorId: '',
       nome: '',
       descricao: '',
@@ -49,13 +49,13 @@ export class CadastroComponent implements OnInit {
     });
   }
 
-  cadastrarProduto() {
-    if (this.produtoForm.valid && this.produtoForm.dirty) {
+  registerProduct() {
+    if (this.productForm.valid && this.productForm.dirty) {
 
-      let produtoForm = Object.assign({}, this.produto, this.produtoForm.value);
-      produtoForm.ativo = this.produtoForm.get('ativo').value
+      let productForm = Object.assign({}, this.product, this.productForm.value);
+      productForm.ativo = this.productForm.get('active').value
 
-      this.produtoHandle(produtoForm)
+      this.productHandler(productForm)
         .subscribe(
           result => { this.onSaveComplete(result) },
           fail => { this.onError(fail) }
@@ -64,37 +64,37 @@ export class CadastroComponent implements OnInit {
   }
 
   onSaveComplete(response: any) {
-    this.router.navigate(['/lista-produtos']);
+    this.router.navigate(['/products-list']);
   }
 
   onError(fail: any) {
     this.errors = fail.error.errors;
   }
 
-  produtoHandleAlternativo(produto: Produto): Observable<Produto> {
+  productHandleAlternative(product: Product): Observable<Product> {
 
     let formdata = new FormData();
-    produto.imagem = this.imagemNome;
-    produto.imagemUpload = null;
+    product.image = this.imageName;
+    product.imageUpload = null;
 
-    formdata.append('produto', JSON.stringify(produto));
-    formdata.append('ImagemUpload', this.imagemForm, this.imagemNome);
+    formdata.append('product', JSON.stringify(product));
+    formdata.append('ImageUpload', this.imageForm, this.imageName);
 
-    return this.produtoService.registrarProdutoAlternativo(formdata);
+    return this.productService.registerAlternativeProduct(formdata);
   }
 
-  produtoHandle(produto: Produto): Observable<Produto> {
+  productHandler(product: Product): Observable<Product> {
 
-    produto.imagemUpload = this.imageBase64;
-    produto.imagem = this.imagemNome;
+    product.imageUpload = this.imageBase64;
+    product.image = this.imageName;
 
-    return this.produtoService.registrarProduto(produto);
+    return this.productService.registerProduct(product);
   }
 
   upload(file: any) {
     // necessario para upload via IformFile
-    this.imagemForm = file[0];
-    this.imagemNome = file[0].name;
+    this.imageForm = file[0];
+    this.imageName = file[0].name;
 
     // necessario para upload via base64
     var reader = new FileReader();
